@@ -596,31 +596,6 @@ async def test_media_browse(
     assert msg["success"]
 
     assert msg["result"]
-    assert msg["result"]["title"] == "Roku"
-    assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["media_content_type"] == "root"
-    assert msg["result"]["can_expand"]
-    assert not msg["result"]["can_play"]
-    assert len(msg["result"]["children"]) == 2
-
-    # test apps
-    await client.send_json(
-        {
-            "id": 2,
-            "type": "media_player/browse_media",
-            "entity_id": MAIN_ENTITY_ID,
-            "media_content_type": MEDIA_TYPE_APPS,
-            "media_content_id": "apps",
-        }
-    )
-
-    msg = await client.receive_json()
-
-    assert msg["id"] == 2
-    assert msg["type"] == TYPE_RESULT
-    assert msg["success"]
-
-    assert msg["result"]
     assert msg["result"]["title"] == "Apps"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
     assert msg["result"]["media_content_type"] == MEDIA_TYPE_APPS
@@ -647,7 +622,7 @@ async def test_media_browse(
     # test invalid media type
     await client.send_json(
         {
-            "id": 3,
+            "id": 2,
             "type": "media_player/browse_media",
             "entity_id": MAIN_ENTITY_ID,
             "media_content_type": "invalid",
@@ -657,7 +632,7 @@ async def test_media_browse(
 
     msg = await client.receive_json()
 
-    assert msg["id"] == 3
+    assert msg["id"] == 2
     assert msg["type"] == TYPE_RESULT
     assert not msg["success"]
 
@@ -766,23 +741,6 @@ async def test_tv_media_browse(
     assert msg["result"]["children"][0]["media_content_type"] == MEDIA_TYPE_CHANNEL
     assert msg["result"]["children"][0]["media_content_id"] == "1.1"
     assert msg["result"]["children"][0]["can_play"]
-
-    # test invalid media type
-    await client.send_json(
-        {
-            "id": 4,
-            "type": "media_player/browse_media",
-            "entity_id": TV_ENTITY_ID,
-            "media_content_type": "invalid",
-            "media_content_id": "invalid",
-        }
-    )
-
-    msg = await client.receive_json()
-
-    assert msg["id"] == 4
-    assert msg["type"] == TYPE_RESULT
-    assert not msg["success"]
 
 
 @pytest.mark.parametrize("mock_roku", ["roku/rokutv-7820x.json"], indirect=True)
