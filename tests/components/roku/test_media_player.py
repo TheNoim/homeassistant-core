@@ -544,8 +544,8 @@ async def test_services_play_media_local_source(
         SERVICE_PLAY_MEDIA,
         {
             ATTR_ENTITY_ID: MAIN_ENTITY_ID,
-            ATTR_MEDIA_CONTENT_TYPE: "",
-            ATTR_MEDIA_CONTENT_ID: "media-source://media_source/local/",
+            ATTR_MEDIA_CONTENT_TYPE: "video/mp4",
+            ATTR_MEDIA_CONTENT_ID: "media-source://media_source/local/Epic Sax Guy 10 Hours.mp4",
         },
         blocking=True,
     )
@@ -822,17 +822,17 @@ async def test_media_browse_local_source(
     assert msg["type"] == TYPE_RESULT
     assert msg["success"]
 
-    assert msg["result"] == {}
-    assert msg["result"]["title"] == "Local Media"
+    assert msg["result"]["title"] == "media"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["media_content_type"] is None
+    assert msg["result"]["media_content_type"] is ""
     assert len(msg["result"]["children"]) == 2
 
-    assert msg["result"]["children"][0]["title"] == "media"
-    assert msg["result"]["children"][0]["media_content_type"] == ""
+    assert msg["result"]["children"][0]["title"] == "Epic Sax Guy 10 Hours.mp4"
+    assert msg["result"]["children"][0]["media_class"] == MEDIA_CLASS_VIDEO
+    assert msg["result"]["children"][0]["media_content_type"] == "video/mp4"
     assert (
         msg["result"]["children"][0]["media_content_id"]
-        == "media-source://media_source/local/."
+        == "media-source://media_source/local/Epic Sax Guy 10 Hours.mp4"
     )
 
 
