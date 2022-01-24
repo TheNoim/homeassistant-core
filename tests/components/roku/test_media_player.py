@@ -728,7 +728,10 @@ async def test_media_browse_local_source(
     assert msg["result"]["children"][1]["title"] == "Local Media"
     assert msg["result"]["children"][1]["media_class"] == MEDIA_CLASS_DIRECTORY
     assert msg["result"]["children"][1]["media_content_type"] is None
-    assert msg["result"]["children"][1]["media_content_id"] == "media-source://media_source"
+    assert (
+        msg["result"]["children"][1]["media_content_id"]
+        == "media-source://media_source"
+    )
     assert not msg["result"]["children"][1]["can_play"]
     assert msg["result"]["children"][1]["can_expand"]
 
