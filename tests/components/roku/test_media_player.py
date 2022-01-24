@@ -695,7 +695,6 @@ async def test_media_browse(
     assert not msg["success"]
 
 
-@pytest.mark.parametrize("mock_roku", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_media_browse_internal(
     hass,
     init_integration,
