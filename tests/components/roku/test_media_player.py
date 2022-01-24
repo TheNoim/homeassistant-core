@@ -22,6 +22,7 @@ from homeassistant.components.media_player.const import (
     MEDIA_CLASS_APP,
     MEDIA_CLASS_CHANNEL,
     MEDIA_CLASS_DIRECTORY,
+    MEDIA_CLASS_VIDEO,
     MEDIA_TYPE_APP,
     MEDIA_TYPE_APPS,
     MEDIA_TYPE_CHANNEL,
@@ -824,7 +825,7 @@ async def test_media_browse_local_source(
 
     assert msg["result"]["title"] == "media"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["media_content_type"] is ""
+    assert msg["result"]["media_content_type"] == ""
     assert len(msg["result"]["children"]) == 2
 
     assert msg["result"]["children"][0]["title"] == "Epic Sax Guy 10 Hours.mp4"
