@@ -597,9 +597,9 @@ async def test_media_browse(
     assert msg["success"]
 
     assert msg["result"]
-    assert msg["result"]["title"] == "Media Library"
+    assert msg["result"]["title"] == "Roku"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["media_content_type"] == "library"
+    assert msg["result"]["media_content_type"] == "root"
     assert msg["result"]["can_expand"]
     assert not msg["result"]["can_play"]
     assert len(msg["result"]["children"]) == 2
