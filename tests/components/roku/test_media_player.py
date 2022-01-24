@@ -741,6 +741,7 @@ async def test_media_browse_local_source(
             "id": 2,
             "type": "media_player/browse_media",
             "entity_id": MAIN_ENTITY_ID,
+            "media_content_type": "",
             "media_content_id": "media-source://media_source",
         }
     )
