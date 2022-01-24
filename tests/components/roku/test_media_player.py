@@ -688,7 +688,7 @@ async def test_media_browse_local_source(
     mock_roku,
     hass_ws_client,
 ):
-    """Test browsing local media."""
+    """Test browsing local media source."""
     local_media = hass.config.path("media")
     await async_process_ha_core_config(
         hass, {"media_dirs": {"local": local_media, "recordings": local_media}}
@@ -725,10 +725,10 @@ async def test_media_browse_local_source(
     assert msg["result"]["children"][0]["title"] == "Apps"
     assert msg["result"]["children"][0]["media_content_type"] == MEDIA_TYPE_APPS
 
-    assert msg["result"]["children"][1] == {}
     assert msg["result"]["children"][1]["title"] == "Local Media"
-    assert msg["result"]["children"][1]["media_content_type"] == "listing"
-    assert msg["result"]["children"][1]["media_content_id"] == ""
+    assert msg["result"]["children"][1]["media_class"] == MEDIA_CLASS_DIRECTORY
+    assert msg["result"]["children"][1]["media_content_type"] is None
+    assert msg["result"]["children"][1]["media_content_id"] == "media-source://media_source"
     assert not msg["result"]["children"][1]["can_play"]
     assert msg["result"]["children"][1]["can_expand"]
 
@@ -738,8 +738,7 @@ async def test_media_browse_local_source(
             "id": 2,
             "type": "media_player/browse_media",
             "entity_id": MAIN_ENTITY_ID,
-            "media_content_type": "listing",
-            "media_content_id": "/media",
+            "media_content_id": "media-source://media_source",
         }
     )
 
@@ -750,12 +749,15 @@ async def test_media_browse_local_source(
     assert msg["success"]
 
     assert msg["result"]
+    assert msg["result"] == {}
     assert msg["result"]["title"] == "Local Media"
+    assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
+    assert msg["result"]["media_content_type"] == ""
     assert len(msg["result"]["children"]) == 2
 
     assert msg["result"]["children"][0] == {}
     assert msg["result"]["children"][0]["title"] == ""
-    assert msg["result"]["children"][0]["media_content_type"] == ""
+    assert msg["result"]["children"][0]["media_content_type"] == MEDIA_CLASS_DIRECTORY
     assert msg["result"]["children"][0]["media_content_id"] == ""
 
 
