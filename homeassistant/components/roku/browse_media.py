@@ -188,7 +188,7 @@ def build_item_response(
         ]
         children_media_class = MEDIA_CLASS_APP
     elif search_type == MEDIA_TYPE_CHANNELS:
-        title = "Channels"
+        title = "TV Channels"
         media = [
             {
                 "channel_number": item.number,
