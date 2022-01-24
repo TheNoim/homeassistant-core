@@ -663,7 +663,7 @@ async def test_media_browse(
     assert msg["success"]
 
     assert msg["result"]
-    assert msg["result"]["title"] == "Channels"
+    assert msg["result"]["title"] == "TV Channels"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
     assert msg["result"]["media_content_type"] == MEDIA_TYPE_CHANNELS
     assert msg["result"]["children_media_class"] == MEDIA_CLASS_CHANNEL
