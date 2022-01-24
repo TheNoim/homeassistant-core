@@ -799,7 +799,7 @@ async def test_media_browse_local_source(
     )
 
     assert msg["result"]["children"][1]["title"] == "media"
-    assert msg["result"]["children"][1]["media_content_type"] == MEDIA_CLASS_DIRECTORY
+    assert msg["result"]["children"][1]["media_content_type"] == ""
     assert (
         msg["result"]["children"][1]["media_content_id"]
         == "media-source://media_source/recordings/."
@@ -829,7 +829,7 @@ async def test_media_browse_local_source(
     assert len(msg["result"]["children"]) == 2
 
     assert msg["result"]["children"][0]["title"] == "media"
-    assert msg["result"]["children"][0]["media_content_type"] == MEDIA_CLASS_DIRECTORY
+    assert msg["result"]["children"][0]["media_content_type"] == ""
     assert (
         msg["result"]["children"][0]["media_content_id"]
         == "media-source://media_source/local/."
