@@ -585,7 +585,7 @@ async def test_media_browse(
         {
             "id": 1,
             "type": "media_player/browse_media",
-            "entity_id": TV_ENTITY_ID,
+            "entity_id": MAIN_ENTITY_ID,
         }
     )
 
@@ -608,7 +608,7 @@ async def test_media_browse(
         {
             "id": 2,
             "type": "media_player/browse_media",
-            "entity_id": TV_ENTITY_ID,
+            "entity_id": MAIN_ENTITY_ID,
             "media_content_type": MEDIA_TYPE_APPS,
             "media_content_id": "apps",
         }
@@ -627,7 +627,7 @@ async def test_media_browse(
     assert msg["result"]["children_media_class"] == MEDIA_CLASS_APP
     assert msg["result"]["can_expand"]
     assert not msg["result"]["can_play"]
-    assert len(msg["result"]["children"]) == 11
+    assert len(msg["result"]["children"]) == 8
     assert msg["result"]["children_media_class"] == MEDIA_CLASS_APP
 
     assert msg["result"]["children"][0]["title"] == "Satellite TV"
@@ -649,7 +649,7 @@ async def test_media_browse(
         {
             "id": 3,
             "type": "media_player/browse_media",
-            "entity_id": TV_ENTITY_ID,
+            "entity_id": MAIN_ENTITY_ID,
             "media_content_type": "invalid",
             "media_content_id": "invalid",
         }
