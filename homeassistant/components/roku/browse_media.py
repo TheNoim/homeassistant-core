@@ -115,7 +115,7 @@ async def root_payload(
     get_browse_image_url: GetBrowseImageUrlType,
 ):
     """Return root payload for Roku."""
-    info = coordinator.data.info
+    device = coordinator.data
 
     children = [
         item_payload(
@@ -125,7 +125,7 @@ async def root_payload(
         )
     ]
 
-    if info.device_type == "tv" and len(info.channels) > 0:
+    if device.info.device_type == "tv" and len(device.channels) > 0:
         children.append(
             item_payload(
                 {"title": "TV Channels", "type": MEDIA_TYPE_CHANNELS},
