@@ -605,19 +605,11 @@ async def test_media_browse(
     assert len(msg["result"]["children"]) == 8
     assert msg["result"]["children_media_class"] == MEDIA_CLASS_APP
 
-    assert msg["result"]["children"][0]["title"] == "Satellite TV"
+    assert msg["result"]["children"][0]["title"] == "Roku Channel Store"
     assert msg["result"]["children"][0]["media_content_type"] == MEDIA_TYPE_APP
-    assert msg["result"]["children"][0]["media_content_id"] == "tvinput.hdmi2"
-    assert (
-        "/browse_media/app/tvinput.hdmi2" in msg["result"]["children"][0]["thumbnail"]
-    )
+    assert msg["result"]["children"][0]["media_content_id"] == "11"
+    assert "/browse_media/app/11" in msg["result"]["children"][0]["thumbnail"]
     assert msg["result"]["children"][0]["can_play"]
-
-    assert msg["result"]["children"][3]["title"] == "Roku Channel Store"
-    assert msg["result"]["children"][3]["media_content_type"] == MEDIA_TYPE_APP
-    assert msg["result"]["children"][3]["media_content_id"] == "11"
-    assert "/browse_media/app/11" in msg["result"]["children"][3]["thumbnail"]
-    assert msg["result"]["children"][3]["can_play"]
 
     # test invalid media type
     await client.send_json(
