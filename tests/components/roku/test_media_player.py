@@ -682,7 +682,7 @@ async def test_media_browse_internal(
     assert msg["result"]["children"][0]["can_play"]
 
 
-async def test_media_browse_local(
+async def test_media_browse_local_source(
     hass,
     init_integration,
     mock_roku,
@@ -725,8 +725,38 @@ async def test_media_browse_local(
     assert msg["result"]["children"][0]["title"] == "Apps"
     assert msg["result"]["children"][0]["media_content_type"] == MEDIA_TYPE_APPS
 
-    assert msg["result"]["children"][1]["title"] == ""
-    assert msg["result"]["children"][1]["media_content_type"] == ""
+    assert msg["result"]["children"][1] == {}
+    assert msg["result"]["children"][1]["title"] == "Local Media"
+    assert msg["result"]["children"][1]["media_content_type"] == "listing"
+    assert msg["result"]["children"][1]["media_content_id"] == ""
+    assert not msg["result"]["children"][1]["can_play"]
+    assert msg["result"]["children"][1]["can_expand"]
+
+    # test local media
+    await client.send_json(
+        {
+            "id": 2,
+            "type": "media_player/browse_media",
+            "entity_id": MAIN_ENTITY_ID,
+            "media_content_type": "listing",
+            "media_content_id": "/media",
+        }
+    )
+
+    msg = await client.receive_json()
+
+    assert msg["id"] == 2
+    assert msg["type"] == TYPE_RESULT
+    assert msg["success"]
+
+    assert msg["result"]
+    assert msg["result"]["title"] == "Local Media"
+    assert len(msg["result"]["children"]) == 2
+
+    assert msg["result"]["children"][0] == {}
+    assert msg["result"]["children"][0]["title"] == ""
+    assert msg["result"]["children"][0]["media_content_type"] == ""
+    assert msg["result"]["children"][0]["media_content_id"] == ""
 
 
 @pytest.mark.parametrize("mock_roku", ["roku/rokutv-7820x.json"], indirect=True)
