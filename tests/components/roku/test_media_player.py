@@ -753,16 +753,54 @@ async def test_media_browse_local_source(
     assert msg["success"]
 
     assert msg["result"]
+    assert msg["result"]["title"] == "Local Media"
+    assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
+    assert msg["result"]["media_content_type"] is None
+    assert len(msg["result"]["children"]) == 2
+
+    assert msg["result"]["children"][0]["title"] == "media"
+    assert msg["result"]["children"][0]["media_content_type"] == MEDIA_CLASS_DIRECTORY
+    assert (
+        msg["result"]["children"][0]["media_content_id"]
+        == "media-source://media_source/local/."
+    )
+
+    assert msg["result"]["children"][1]["title"] == "media"
+    assert msg["result"]["children"][1]["media_content_type"] == MEDIA_CLASS_DIRECTORY
+    assert (
+        msg["result"]["children"][1]["media_content_id"]
+        == "media-source://media_source/recordings/."
+    )
+
+    # test local media directory
+    await client.send_json(
+        {
+            "id": 3,
+            "type": "media_player/browse_media",
+            "entity_id": MAIN_ENTITY_ID,
+            "media_content_type": "",
+            "media_content_id": "media-source://media_source/local/.",
+        }
+    )
+
+    msg = await client.receive_json()
+
+    assert msg["id"] == 3
+    assert msg["type"] == TYPE_RESULT
+    assert msg["success"]
+
     assert msg["result"] == {}
     assert msg["result"]["title"] == "Local Media"
     assert msg["result"]["media_class"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["media_content_type"] == ""
+    assert msg["result"]["media_content_type"] is None
     assert len(msg["result"]["children"]) == 2
 
-    assert msg["result"]["children"][0] == {}
-    assert msg["result"]["children"][0]["title"] == ""
+    assert msg["result"]["children"][0]["title"] == "media"
     assert msg["result"]["children"][0]["media_content_type"] == MEDIA_CLASS_DIRECTORY
-    assert msg["result"]["children"][0]["media_content_id"] == ""
+    assert (
+        msg["result"]["children"][0]["media_content_id"]
+        == "media-source://media_source/local/."
+    )
 
 
 @pytest.mark.parametrize("mock_roku", ["roku/rokutv-7820x.json"], indirect=True)
